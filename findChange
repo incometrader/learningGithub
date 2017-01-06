@@ -1,0 +1,123 @@
+
+function checkCashRegister(price, cash, cid) {
+  var coins = [], change = cash - price;
+  // Here is your change, ma'am.
+  function coincid() {
+    var totalCoins = 0;
+    for (var i = 0; i < 4; i++){
+      coins.push(cid[i]);
+      totalCoins += cid[i][1];
+    }
+    return totalCoins;
+  }
+  
+  function totalcid(){
+    var totalBills = 0;
+    for (var j = 0; j < 9; j++){
+      totalBills += cid[j][1];
+    }
+    return totalBills;
+  }
+  
+  function reduceChange(changee, currency){
+    var x = Math.floor(change/currency);
+    return currency * x;
+  }
+  
+  if (totalcid() < change){
+    return "Insufficient Funds";
+  }
+  else if (change < 1.00 && change > coincid()){
+    return "Insufficient Funds";
+  }
+  else if (change == totalcid()){
+    return "Closed";
+  }
+  else {
+    if (coincid() > change){
+      var finalChange = [];
+      for (var k = 3; k >= 0; k--){
+        if (coins[k][1] > change){
+          finalChange.push([coins[k][0], change]);
+          return finalChange;
+        }
+      }
+    }
+    else {
+      var finalChangee = [];
+      
+      if (change >= 100){
+        var reduce100 = reduceChange(change, 100.00);
+        if (reduce100 > cid[8][1]){
+          reduce100 = cid[8][1];
+        }
+        finalChangee.push([cid[8][0], reduce100]);
+        change -= reduce100;
+      }
+      if (change >= 20){
+        var reduce20 = reduceChange(change, 20.00);
+        if (reduce20 > cid[7][1]){
+          reduce20 = cid[7][1];
+        }
+        finalChangee.push([cid[7][0], reduce20]);
+        change -= reduce20;
+      }
+      if (change >= 10){
+        var reduce10 = reduceChange(change, 10.00);
+        if (reduce10 > cid[6][1]){
+          reduce10 = cid[6][1];
+        }
+        finalChangee.push([cid[6][0], reduce10]);
+        change -= reduce10;
+      }
+      if (change >= 5){
+        var reduce5 = reduceChange(change, 5.00);
+        if (reduce5 > cid[5][1]){
+          reduce5 = cid[5][1];
+        }
+        finalChangee.push([cid[5][0], reduce5]);
+        change -= reduce5;
+      }
+      if (change >= 1){
+        var reduce1 = reduceChange(change, 1.00);
+        if (reduce1 > cid[4][1]){
+          reduce1 = cid[4][1];
+        }
+        finalChangee.push([cid[4][0], reduce1]);
+        change -= reduce1;
+      }
+      if (change >= 0.25){
+        var reduce025 = reduceChange(change, 0.25);
+        if (reduce025 > cid[3][1]){
+          reduce025 = cid[3][1];
+        }
+        finalChangee.push([cid[3][0], reduce025]);
+        change -= reduce025;
+      }
+      if (change >= 0.1){
+        var reduce01 = reduceChange(change, 0.10);
+        if (reduce01 > cid[2][1]){
+          reduce01 = cid[2][1];
+        }
+        finalChangee.push([cid[2][0], reduce01]);
+        change -= reduce01;
+      }
+      if (change >= 0.05){
+        var reduce005 = reduceChange(change, 0.05);
+        if (reduce005 > cid[1][1]){
+          reduce005 = cid[1][1];
+        }
+        finalChangee.push([cid[1][0], reduce005]);
+        change -= reduce005;
+      }
+      if (change >= 0.01){
+        finalChangee.push([cid[0][0], +(change.toFixed(2))]);
+      }
+      return finalChangee;
+    }
+  }
+  
+}
+// That's all
+
+checkCashRegister(3.26, 100.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]);
